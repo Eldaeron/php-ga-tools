@@ -27,14 +27,8 @@ class EnhancedEcommerce
 			$transaction["pr{$n}nm"] = $products[$i]['name'];		// Product 1 name. Either ID or name must be set.
 			$transaction["pr{$n}pr"] = $products[$i]['price'];		// Product 1 Price.
 			$transaction["pr{$n}qt"] = $products[$i]['qty'];		// Product 1 quantity.
-
-			if (isset($products[$i]['category'])) {
-				$transaction["pr{$n}ca"] = $products[$i]['category'];	// Product 1 category.
-			}
-
-			if (isset($products[$i]['brand'])) {
-				$transaction["pr{$n}br"] = $products[$i]['brand'];	// Product 1 brand.
-			}
+			$transaction["pr{$n}ca"] = $products[$i]['category'];	// Product 1 category.
+			$transaction["pr{$n}br"] = $products[$i]['brand'];	// Product 1 brand.
 		}
 
 		return $transaction;
