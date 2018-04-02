@@ -30,15 +30,11 @@ class EnhancedEcommerce
 
 			if (isset($products[$i]['category'])) {
 				$transaction["pr{$n}ca"] = $products[$i]['category'];	// Product 1 category.
-			} else {
-				$transaction["pr{$n}ca"] = false;
 			}
 
 			if (isset($products[$i]['brand'])) {
 				$transaction["pr{$n}br"] = $products[$i]['brand'];	// Product 1 brand.
-			} else {
-				$transaction["pr{$n}br"] = false;
-			}	
+			}
 		}
 
 		return $transaction;
