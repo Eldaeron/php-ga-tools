@@ -1,34 +1,45 @@
 <?php
-/*
-    Enhanced Ecommerce Payloads
-*/
+  /**
+	* Enhanced Ecommerce Payloads
+    * @link https://developers.google.com/analytics/devguides/collection/protocol/v1/devguide?hl=ru (Docs)
+    * @link https://github.com/Eldaeron/php-ga-tools (Script)
+	*/
 
 namespace PhpGaTools;
 
 class EnhancedEcommerce
 {
-	/*
-	$products = array(
-		array('id'=>'00411', 'name'=>'The Jungle Books', 'brand'=>'Rudyard Kipling', 'price'=>330, 'qty'=>1, 'category'=>'Classics'),
-		array('id'=>'00412', 'name'=>'Just So Stories', 'brand'=>'Rudyard Kipling', 'price'=>350, 'qty'=>3, 'category'=>'Classics'),
-	);
-	*/
-	function purchase($orderId, $revenue, array $products){
+	function purchase($orderId, $revenue, array $products, $affiliation = '', $tax = 0, $shipping = 0, $coupon = false){
 		$transaction = array(
-			'ti'=>$orderId,
-			'tr'=>$revenue,
-			'pa'=>'purchase'
+			'pa' => 'purchase',		// Product action (purchase). Required.
+			'ti' => $orderId,		// Transaction ID. Required.
+			'ta' => $affiliation,	// Transaction Affiliation Example "Google Store Online"
+			'tt' => $tax,			// Transaction tax.
+			'ts' => $shipping,		// Transaction shipping.
+			'tr' => $revenue,		// Revenue
+			'tcc' => $coupon		// Transaction coupon
 		);
-		for($i=0; $i<count($products); $i++){
+
+		for ($i=0; $i < count($products); $i++) {
 			$n = $i+1;
-			$transaction["pr{$n}id"] = $products[$i]['id'];
-			$transaction["pr{$n}nm"] = $products[$i]['name'];
-			$transaction["pr{$n}br"] = $products[$i]['brand'];
-			$transaction["pr{$n}pr"] = $products[$i]['price'];
-			$transaction["pr{$n}ca"] = $products[$i]['category'];
-			$transaction["pr{$n}qt"] = $products[$i]['qty'];
+			$transaction["pr{$n}id"] = $products[$i]['id'];				// Product 1 ID. Either ID or name must be set.
+			$transaction["pr{$n}nm"] = $products[$i]['name'];			// Product 1 name. Either ID or name must be set.
+			$transaction["pr{$n}pr"] = $products[$i]['price'];			// Product 1 Price.
+			$transaction["pr{$n}qt"] = $products[$i]['qty'];			// Product 1 quantity.
+
+			if (isset($products[$i]['category'])) {
+				$transaction["pr{$n}ca"] = $products[$i]['category'];	// Product 1 category.
+			} else {
+				$transaction["pr{$n}ca"] = false;
+			}
+
+			if (isset($products[$i]['brand'])) {
+				$transaction["pr{$n}br"] = $products[$i]['brand'];		// Product 1 brand.
+			} else {
+				$transaction["pr{$n}br"] = false;
+			}	
 		}
+
 		return $transaction;
 	}
 }
-?>
